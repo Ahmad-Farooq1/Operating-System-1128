@@ -1,0 +1,37 @@
+services:
+# MongoDB Database
+mongodb:
+image: mongo:7-jammy
+container_name: guestbook-db
+networks:
+- <enter_network>
+volumes:
+- mongo_data:/data/db
+# Backend API
+api:
+# build: ./backend
+# image: <image_name>
+container_name: guestbook-api
+environment:
+- MONGO_URL=mongodb://mongodb:27017
+ports:
+- "3000:3000"
+depends_on:
+- mongodb
+networks:
+<enter_network>
+# Frontend
+web:
+# build: ./frontend
+# image: <image_name>
+container_name: guestbook-web
+ports:
+- "8080:80"
+depends_on:
+- api
+networks:
+- <enter_network>
+networks:
+<network_names>:
+volumes:
+mongo_data:
